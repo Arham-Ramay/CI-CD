@@ -1,8 +1,10 @@
-name: Node.js CI + CD
+name: Node.js CI + CD 
 
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]  
 
 jobs:
   deploy:
@@ -17,6 +19,11 @@ jobs:
         with:
           node-version: 18
 
+      - name: Install dependencies
+        run: |
+          cd my-express-app
+          npm install
+
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v0.1.10
         with:
@@ -24,12 +31,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ${{ secrets.EC2_APP_PATH }}
+            cd ${{ secrets.EC2_APP_PATH }}/my-express-app
             git pull origin main
             npm install
-
-            # Kill any process running on port 3000 (or your port)
-            fuser -k 3000/tcp || true
-
-            # Start your app again in background
-            nohup node index.js > out.log 2>&1 &
+            pm2 start index.js --name my-express-app || pm2 restart my-express-app
