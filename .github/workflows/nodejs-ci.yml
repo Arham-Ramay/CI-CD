@@ -32,4 +32,4 @@ jobs:
             cd ${{ secrets.EC2_APP_PATH }}/my-express-app
             git pull origin main
             npm install
-            nohup npm start > output.log 2>&1 &
+            node index.js
