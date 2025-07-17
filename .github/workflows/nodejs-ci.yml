@@ -1,4 +1,4 @@
-name: Node.js CI + CD 
+name: Node.js CI + CD
 
 on:
   push:
@@ -27,5 +27,9 @@ jobs:
             cd ${{ secrets.EC2_APP_PATH }}
             git pull origin main
             npm install
-            pkill node || true
+
+            # Kill any process running on port 3000 (or your port)
+            fuser -k 3000/tcp || true
+
+            # Start your app again in background
             nohup node index.js > out.log 2>&1 &
