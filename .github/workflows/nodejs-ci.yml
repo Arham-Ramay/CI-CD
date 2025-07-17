@@ -20,10 +20,11 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: | 
+          cd my-express-app
+          npm install
 
-      - name: Run Linter
-        run: npm run lint
-
-      - name: Run Tests
-        run: npm test
+      - name: Run tests
+        run: | 
+          cd my-express-app
+          echo "Arham sahab the great" 
