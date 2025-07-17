@@ -4,7 +4,7 @@ const app = express();
 const PORT = 3000;
 
 app.get("/", (req, res) => {
-  res.send("Hello from Express on AWS EC2! i am arham");
+  res.se("Hello from Second Branch";
 });
 
 app.listen(PORT, () => {
